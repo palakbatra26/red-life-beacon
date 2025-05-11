@@ -44,28 +44,18 @@ const ProfilePage = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (!isLoaded) return;
-    
-    try {
-      if (!user) {
-        setIsLoading(false);
-        return;
-      }
-
+    if (isLoaded && user) {
       const firstName = user.firstName || '';
       const lastName = user.lastName || '';
       const fullName = `${firstName} ${lastName}`.trim() || 'User';
       const metadata = (user.unsafeMetadata || {}) as UserMetadata;
-      const phoneNumber = (user.phoneNumbers && user.phoneNumbers.length > 0) 
-        ? user.phoneNumbers[0].phoneNumber 
-        : 'Not specified';
 
       setUserData({
         name: fullName,
         email: user.primaryEmailAddress?.emailAddress || '',
         bloodGroup: metadata.bloodGroup || 'Not specified',
         city: metadata.city || 'Not specified',
-        phone: phoneNumber,
+        phone: user.phoneNumbers[0]?.phoneNumber || 'Not specified',
         joinDate: user.createdAt 
           ? new Date(user.createdAt).toLocaleDateString('en-US', { 
               year: 'numeric', 
@@ -82,9 +72,6 @@ const ProfilePage = () => {
       });
 
       setDonationHistory(metadata.donationHistory || []);
-    } catch (error) {
-      console.error('Error loading user data:', error);
-    } finally {
       setIsLoading(false);
     }
   }, [user, isLoaded]);
@@ -112,7 +99,6 @@ const ProfilePage = () => {
       <Layout>
         <div className="flex items-center justify-center min-h-screen">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-          <span className="sr-only">Loading...</span>
         </div>
       </Layout>
     );
@@ -144,7 +130,7 @@ const ProfilePage = () => {
                     <Avatar className="h-24 w-24">
                       <AvatarImage src={user.imageUrl} alt={userData.name} />
                       <AvatarFallback>
-                        {userData?.name?.split(' ').filter(Boolean).map(n => n[0]).join('').toUpperCase() || 'U'}
+                        {userData.name.split(' ').map(n => n[0]).join('').toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
                     <div className="text-center">

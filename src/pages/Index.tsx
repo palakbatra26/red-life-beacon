@@ -54,9 +54,12 @@ const Index = () => {
                 </Button>
               </Link>
               <Link to="/urgent">
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
-                  <AlertTriangle className="mr-2 h-5 w-5" />
-                  Urgent Requests
+                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary transition-colors relative overflow-hidden">
+                  <span className="absolute inset-0 bg-primary opacity-0 hover:opacity-20 animate-pulse"></span>
+                  <span className="relative flex items-center">
+                    <AlertTriangle className="mr-2 h-5 w-5" />
+                    Urgent Requests
+                  </span>
                 </Button>
               </Link>
             </div>

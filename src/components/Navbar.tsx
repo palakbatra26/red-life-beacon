@@ -2,11 +2,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Home, Hospital, Bell, UserRound, LogIn, UserPlus } from 'lucide-react';
-import { SignedIn, SignedOut, UserButton, SignInButton, SignUpButton } from '@clerk/clerk-react';
+import { Home, Hospital, Bell, UserRound, LogIn, UserPlus, Shield } from 'lucide-react';
+import { SignedIn, SignedOut, UserButton, SignInButton, SignUpButton, useUser } from '@clerk/clerk-react';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user } = useUser();
+  const isAdmin = user?.primaryEmailAddress?.emailAddress === 'palakbatra79@gmail.com';
 
   // Toggle for mobile menu
   const toggleMenu = () => {
@@ -19,7 +21,7 @@ const Navbar = () => {
         <div className="flex justify-between h-16">
           <div className="flex-shrink-0 flex items-center">
             <Link to="/" className="flex items-center">
-              <span className="text-primary font-bold text-xl">Palak's Blood Donation</span>
+              <span className="text-primary font-bold text-xl">PB's Blood Donation</span>
             </Link>
           </div>
           
@@ -47,6 +49,12 @@ const Navbar = () => {
                 <UserRound className="mr-1 h-4 w-4" />
                 Profile
               </Link>
+              {isAdmin && (
+                <Link to="/admin" className="flex items-center text-gray-700 px-3 py-2 rounded-md text-sm font-medium hover:bg-primary hover:text-white transition-colors duration-200">
+                  <Shield className="mr-1 h-4 w-4" />
+                  Admin
+                </Link>
+              )}
               <UserButton afterSignOutUrl="/" />
             </SignedIn>
             
@@ -150,6 +158,16 @@ const Navbar = () => {
               <UserRound className="mr-2 h-4 w-4" />
               Profile
             </Link>
+            {isAdmin && (
+              <Link 
+                to="/admin" 
+                className="flex items-center text-gray-700 block px-3 py-2 rounded-md text-base font-medium hover:bg-primary hover:text-white"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <Shield className="mr-2 h-4 w-4" />
+                Admin Panel
+              </Link>
+            )}
           </SignedIn>
           
           <SignedOut>

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useUser } from '@clerk/clerk-react';
-import { UserRound, Calendar, MapPin, Award, AlertTriangle, Droplet } from 'lucide-react';
+import { UserRound, Calendar, MapPin, Award, AlertTriangle, Mail, Phone, Droplet } from 'lucide-react';
 import Layout from '../components/Layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
 
 interface Donation {
   id: string;
@@ -12,7 +13,6 @@ interface Donation {
   location: string;
   bloodGroup: string;
   units: number;
-  certificate?: string;
 }
 
 interface UserMetadata {
@@ -26,6 +26,7 @@ interface UserMetadata {
 
 const ProfilePage = () => {
   const { user, isLoaded } = useUser();
+  const [donationHistory, setDonationHistory] = useState<Donation[]>([]);
   const [userData, setUserData] = useState({
     name: '',
     email: '',
@@ -40,32 +41,21 @@ const ProfilePage = () => {
     donationsCount: 0,
     lastDonation: 'Never'
   });
-  const [donationHistory, setDonationHistory] = useState<Donation[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (!isLoaded) return;
-    
-    try {
-      if (!user) {
-        setIsLoading(false);
-        return;
-      }
-
+    if (isLoaded && user) {
       const firstName = user.firstName || '';
       const lastName = user.lastName || '';
       const fullName = `${firstName} ${lastName}`.trim() || 'User';
-      const metadata = (user.unsafeMetadata || {}) as UserMetadata;
-      const phoneNumber = (user.phoneNumbers && user.phoneNumbers.length > 0) 
-        ? user.phoneNumbers[0].phoneNumber 
-        : 'Not specified';
-
+      
+      const metadata = user.unsafeMetadata as UserMetadata || {};
+      
       setUserData({
         name: fullName,
         email: user.primaryEmailAddress?.emailAddress || '',
         bloodGroup: metadata.bloodGroup || 'Not specified',
         city: metadata.city || 'Not specified',
-        phone: phoneNumber,
+        phone: user.phoneNumbers[0]?.phoneNumber || 'Not specified',
         joinDate: user.createdAt 
           ? new Date(user.createdAt).toLocaleDateString('en-US', { 
               year: 'numeric', 
@@ -82,10 +72,6 @@ const ProfilePage = () => {
       });
 
       setDonationHistory(metadata.donationHistory || []);
-    } catch (error) {
-      console.error('Error loading user data:', error);
-    } finally {
-      setIsLoading(false);
     }
   }, [user, isLoaded]);
 
@@ -107,12 +93,11 @@ const ProfilePage = () => {
     }
   };
 
-  if (!isLoaded || isLoading) {
+  if (!isLoaded) {
     return (
       <Layout>
         <div className="flex items-center justify-center min-h-screen">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-          <span className="sr-only">Loading...</span>
         </div>
       </Layout>
     );
@@ -144,7 +129,7 @@ const ProfilePage = () => {
                     <Avatar className="h-24 w-24">
                       <AvatarImage src={user.imageUrl} alt={userData.name} />
                       <AvatarFallback>
-                        {userData?.name?.split(' ').filter(Boolean).map(n => n[0]).join('').toUpperCase() || 'U'}
+                        {userData.name.split(' ').map(n => n[0]).join('').toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
                     <div className="text-center">
@@ -168,7 +153,12 @@ const ProfilePage = () => {
                         <span className="font-medium">{userData.city}</span>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <Calendar className="h-4 w-4 text-green-500" />
+                        <Phone className="h-4 w-4 text-green-500" />
+                        <span className="text-muted-foreground">Phone:</span>
+                        <span className="font-medium">{userData.phone}</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Calendar className="h-4 w-4 text-purple-500" />
                         <span className="text-muted-foreground">Member Since:</span>
                         <span className="font-medium">{userData.joinDate}</span>
                       </div>

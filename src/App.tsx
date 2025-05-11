@@ -10,6 +10,7 @@ import UrgentNeedPage from "./pages/UrgentNeedPage";
 import RegisterDonorPage from "./pages/RegisterDonorPage";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
+import AdminPanel from "./pages/AdminPanel";
 import NotFound from "./pages/NotFound";
 import { ClerkProvider } from "./providers/ClerkProvider";
 import DonationFormPage from "./pages/DonationFormPage";
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="/register-donor" element={<RegisterDonorPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/admin" element={<AdminPanel />} />
             <Route path="/donate/:campId" element={<DonationFormPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
