@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Home, Hospital, Bell, UserRound, LogIn, UserPlus } from 'lucide-react';
+import { SignedIn, SignedOut, UserButton, SignInButton, SignUpButton } from '@clerk/clerk-react';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // Toggle for mobile menu
   const toggleMenu = () => {
@@ -42,34 +42,41 @@ const Navbar = () => {
               Register as Donor
             </Link>
             
-            {isLoggedIn ? (
+            <SignedIn>
               <Link to="/profile" className="flex items-center text-gray-700 px-3 py-2 rounded-md text-sm font-medium hover:bg-primary hover:text-white transition-colors duration-200">
                 <UserRound className="mr-1 h-4 w-4" />
                 Profile
               </Link>
-            ) : (
-              <Link to="/login" className="flex items-center text-gray-700 px-3 py-2 rounded-md text-sm font-medium hover:bg-primary hover:text-white transition-colors duration-200">
-                <LogIn className="mr-1 h-4 w-4" />
-                Login / Register
-              </Link>
-            )}
-
-            {/* Demo toggle for showing profile/login - Remove in production */}
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => setIsLoggedIn(!isLoggedIn)}
-              className="ml-2 text-xs"
-            >
-              Demo: {isLoggedIn ? 'Logout' : 'Login'}
-            </Button>
+              <UserButton afterSignOutUrl="/" />
+            </SignedIn>
+            
+            <SignedOut>
+              <div className="flex items-center">
+                <SignInButton mode="modal">
+                  <Button variant="ghost" className="flex items-center">
+                    <LogIn className="mr-1 h-4 w-4" />
+                    Sign In
+                  </Button>
+                </SignInButton>
+                <SignUpButton mode="modal">
+                  <Button variant="outline" className="flex items-center ml-2">
+                    <UserPlus className="mr-1 h-4 w-4" />
+                    Sign Up
+                  </Button>
+                </SignUpButton>
+              </div>
+            </SignedOut>
           </div>
           
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center">
+            <SignedIn>
+              <UserButton afterSignOutUrl="/" />
+            </SignedIn>
+            
             <button
               onClick={toggleMenu}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-white hover:bg-primary focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+              className="inline-flex items-center justify-center ml-2 p-2 rounded-md text-gray-700 hover:text-white hover:bg-primary focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
               aria-expanded="false"
             >
               <span className="sr-only">Open main menu</span>
@@ -134,7 +141,7 @@ const Navbar = () => {
             Register as Donor
           </Link>
           
-          {isLoggedIn ? (
+          <SignedIn>
             <Link 
               to="/profile" 
               className="flex items-center text-gray-700 block px-3 py-2 rounded-md text-base font-medium hover:bg-primary hover:text-white"
@@ -143,16 +150,24 @@ const Navbar = () => {
               <UserRound className="mr-2 h-4 w-4" />
               Profile
             </Link>
-          ) : (
-            <Link 
-              to="/login" 
-              className="flex items-center text-gray-700 block px-3 py-2 rounded-md text-base font-medium hover:bg-primary hover:text-white"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              <LogIn className="mr-2 h-4 w-4" />
-              Login / Register
-            </Link>
-          )}
+          </SignedIn>
+          
+          <SignedOut>
+            <div className="flex flex-col space-y-2 pt-2">
+              <SignInButton mode="modal">
+                <Button variant="ghost" className="flex items-center justify-center w-full">
+                  <LogIn className="mr-2 h-4 w-4" />
+                  Sign In
+                </Button>
+              </SignInButton>
+              <SignUpButton mode="modal">
+                <Button variant="outline" className="flex items-center justify-center w-full">
+                  <UserPlus className="mr-2 h-4 w-4" />
+                  Sign Up
+                </Button>
+              </SignUpButton>
+            </div>
+          </SignedOut>
         </div>
       </div>
     </nav>

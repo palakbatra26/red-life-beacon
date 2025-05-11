@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Layout from '@/components/Layout';
 import { Button } from '@/components/ui/button';
@@ -8,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useToast } from '@/components/ui/use-toast';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { UserRound, Edit, Calendar, MapPin, Award, AlertTriangle } from 'lucide-react';
+import { UserRound, Edit, Calendar, MapPin, Award, AlertTriangle, X } from 'lucide-react';
 
 // Sample user data
 const userData = {

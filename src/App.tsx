@@ -11,25 +11,30 @@ import RegisterDonorPage from "./pages/RegisterDonorPage";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
 import NotFound from "./pages/NotFound";
+import { ClerkProvider } from "./providers/ClerkProvider";
+import DonationFormPage from "./pages/DonationFormPage";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/camps" element={<CampsPage />} />
-          <Route path="/urgent" element={<UrgentNeedPage />} />
-          <Route path="/register-donor" element={<RegisterDonorPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <ClerkProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/camps" element={<CampsPage />} />
+            <Route path="/urgent" element={<UrgentNeedPage />} />
+            <Route path="/register-donor" element={<RegisterDonorPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/donate/:campId" element={<DonationFormPage />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </ClerkProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
