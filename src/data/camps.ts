@@ -1,6 +1,7 @@
+import { Camp } from '@/types/camp';
 
 // Sample data for blood donation camps
-export const allCamps = [
+export const allCamps: Camp[] = [
   {
     id: 1,
     title: "City Hospital Blood Drive",
