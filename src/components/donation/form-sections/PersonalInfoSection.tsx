@@ -6,6 +6,7 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
+  FormDescription
 } from "@/components/ui/form";
 import { Input } from '@/components/ui/input';
 import { UseFormReturn } from 'react-hook-form';
@@ -69,6 +70,9 @@ const PersonalInfoSection = ({ form }: PersonalInfoSectionProps) => {
             <FormControl>
               <Input placeholder="Enter your phone number" {...field} />
             </FormControl>
+            <FormDescription className="text-xs">
+              Format: 10-14 digits with optional country code (e.g., +1-1234567890)
+            </FormDescription>
             <FormMessage />
           </FormItem>
         )}
