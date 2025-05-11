@@ -1,10 +1,9 @@
-
 import React from 'react';
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { format } from 'date-fns';
-
+import { Camp } from '@/types/camp';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { 
@@ -27,11 +26,8 @@ import {
 import { CalendarIcon } from 'lucide-react';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Camp } from '@/data/camps';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
-
-const bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
 // Form schema
 const formSchema = z.object({

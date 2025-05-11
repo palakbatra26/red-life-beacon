@@ -7,6 +7,7 @@ export interface Camp {
   time: string;
   location: string;
   city: string;
+  phone: string;
   imageUrl?: string;
   description?: string;
   bloodTypesNeeded?: string[];

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Calendar, MapPin } from 'lucide-react';
-import { Camp } from '@/data/camps';
+import { Camp } from '@/types/camp';
 
 interface CampDetailsCardProps {
   campDetails: Camp;
