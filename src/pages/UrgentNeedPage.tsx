@@ -114,7 +114,7 @@ const UrgentNeedPage = () => {
                   <SelectValue placeholder="All Blood Types" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Blood Types</SelectItem>
+                  <SelectItem value="all-types">All Blood Types</SelectItem>
                   {bloodTypes.map(type => (
                     <SelectItem key={type} value={type}>{type}</SelectItem>
                   ))}
@@ -130,7 +130,7 @@ const UrgentNeedPage = () => {
                   <SelectValue placeholder="All Cities" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Cities</SelectItem>
+                  <SelectItem value="all-cities">All Cities</SelectItem>
                   {cities.map(city => (
                     <SelectItem key={city} value={city}>{city}</SelectItem>
                   ))}
