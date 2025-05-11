@@ -9,7 +9,9 @@ export const donorFormSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
   email: z.string().email("Invalid email address"),
-  phone: z.string().min(10, "Phone number must be at least 10 digits"),
+  phone: z.string()
+    .min(10, "Phone number must be at least 10 digits")
+    .regex(/^(\+\d{1,3}[- ]?)?\d{10,14}$/, "Please enter a valid phone number"),
   bloodGroup: z.string().min(1, "Blood group is required"),
   preferredTime: z.date(),
   medicalInfo: z.string().optional(),
